@@ -1,0 +1,437 @@
+.evidence-hero {
+  display: grid;
+  gap: 14px;
+}
+
+.evidence-subtitle {
+  margin: 0;
+  color: #49627a;
+  font-size: 13px;
+}
+
+.evidence-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+}
+
+.evidence-kpi {
+  border: 1px solid #d7e4f0;
+  border-radius: 10px;
+  padding: 10px;
+  background: linear-gradient(145deg, #f8fbff 0%, #f2f8fe 100%);
+}
+
+.evidence-kpi p {
+  margin: 0;
+  font-size: 12px;
+  color: #4a6077;
+}
+
+.evidence-kpi strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 18px;
+  color: #15324d;
+}
+
+.evidence-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.evidence-nav a {
+  text-decoration: none;
+  border: 1px solid #b8ccde;
+  color: #1f3a55;
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 12px;
+  background: #f8fbff;
+}
+
+.evidence-nav a:hover {
+  background: #e9f2fb;
+}
+
+.evidence-panel {
+  display: grid;
+  gap: 12px;
+  scroll-margin-top: 14px;
+}
+
+.viz-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.viz-grid.two-col {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.viz-card {
+  border: 1px solid #d7e4f0;
+  border-radius: 10px;
+  background: #fbfdff;
+  padding: 12px;
+}
+
+.chart-frame {
+  border: 1px solid #d9e6f1;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 8px 8px 0;
+}
+
+.evidence-svg {
+  width: 100%;
+  height: 340px;
+  border: 1px solid #d9e6f1;
+  border-radius: 8px;
+  background: radial-gradient(circle at 20% 20%, #fdfefe 0%, #f2f7fb 100%);
+}
+
+.legend-row {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #4b6076;
+}
+
+.legend-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.insight-list {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+.insight-item {
+  border: 1px solid #dce8f2;
+  border-radius: 8px;
+  background: #f7fbff;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.insight-item p {
+  margin: 0;
+  font-size: 12px;
+  color: #4d647c;
+}
+
+.insight-item strong {
+  color: #1f3952;
+}
+
+.compact-list {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.compact-list li {
+  border: 1px solid #dce8f2;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.compact-list span {
+  font-size: 12px;
+  color: #4d647c;
+}
+
+.compact-list strong {
+  color: #1f3952;
+}
+
+.anomaly-count {
+  margin: 0;
+  border: 1px solid #ecd5d4;
+  border-radius: 8px;
+  background: #fff7f6;
+  color: #8f3230;
+  padding: 9px;
+  font-size: 13px;
+}
+
+.gauge-wrap {
+  position: relative;
+  height: 240px;
+}
+
+.gauge-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.gauge-center strong {
+  font-size: 34px;
+  line-height: 1;
+  color: #17334f;
+}
+
+.gauge-center span {
+  font-size: 12px;
+  color: #4d647c;
+  margin-top: 2px;
+}
+
+.risk-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.risk-low {
+  background: #e3f3e9;
+  color: #226649;
+}
+
+.risk-medium {
+  background: #fff0de;
+  color: #8e5d1f;
+}
+
+.risk-high {
+  background: #fee8df;
+  color: #8d4322;
+}
+
+.risk-critical {
+  background: #fde4e3;
+  color: #8b2f2f;
+}
+
+.support-text {
+  margin: 8px 0 0;
+  font-size: 12px;
+  color: #4d647c;
+}
+
+.sort-header-btn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.sort-header-btn:hover {
+  color: #1f3b56;
+}
+
+.badge,
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.badge-high {
+  background: #fde4e3;
+  color: #8b2f2f;
+}
+
+.badge-medium {
+  background: #fff0de;
+  color: #8e5d1f;
+}
+
+.badge-low {
+  background: #e3f3e9;
+  color: #226649;
+}
+
+.status-open {
+  background: #fde8e6;
+  color: #8b302f;
+}
+
+.status-under-review {
+  background: #eef4fb;
+  color: #2f5b89;
+}
+
+.status-closed {
+  background: #e5f5ea;
+  color: #2b6a47;
+}
+
+.evidence-table-wrap {
+  margin-top: 8px;
+}
+
+.workflow-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 12px;
+}
+
+.kanban-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kanban-column {
+  border: 1px solid #d9e6f1;
+  border-radius: 10px;
+  background: #f8fbff;
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-height: 280px;
+}
+
+.kanban-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.kanban-head h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.kanban-head span {
+  font-size: 12px;
+  color: #4d647c;
+}
+
+.kanban-card {
+  border: 1px solid #dce8f2;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 8px;
+  display: grid;
+  gap: 4px;
+}
+
+.kanban-card p,
+.kanban-card small {
+  margin: 0;
+  color: #4d647c;
+}
+
+.timeline-rail {
+  border: 1px solid #d9e6f1;
+  border-radius: 10px;
+  background: #f9fcff;
+  padding: 10px;
+}
+
+.timeline-rail ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  max-height: 420px;
+  overflow: auto;
+}
+
+.timeline-rail li {
+  border-left: 2px solid #b8ccde;
+  padding-left: 12px;
+  position: relative;
+}
+
+.timeline-rail li::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 6px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2f6fa3;
+}
+
+.timeline-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+  color: #4d647c;
+}
+
+.timeline-action {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #203a53;
+}
+
+.evidence-note p {
+  margin: 0;
+  color: #2a4158;
+  line-height: 1.5;
+}
+
+.mono-arrow {
+  font-family: 'Courier New', monospace;
+}
+
+@media (max-width: 1180px) {
+  .workflow-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 920px) {
+  .kanban-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .evidence-kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .evidence-nav a {
+    font-size: 11px;
+    padding: 6px 9px;
+  }
+
+  .evidence-svg {
+    height: 300px;
+  }
+}
