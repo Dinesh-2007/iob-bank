@@ -323,6 +323,56 @@ export const buildEvidenceAnalytics = (caseData, state, district, range) => {
     }))
     .sort((left, right) => right.accounts - left.accounts);
 
+  const transactionBehaviourSeries = behaviouralSeries.map((point, index) => {
+    const count = seededNumber(`${seed}|txn-count|${index}`, 8, 42);
+    const creditShare = seededNumber(`${seed}|txn-credit-share|${index}`, 45, 78) / 100;
+    const creditAmount = Math.round(point.amount * creditShare);
+    const debitAmount = Math.max(0, point.amount - creditAmount);
+    const avgAmount = Math.round(point.amount / Math.max(1, count));
+    const riskScore = point.isAnomaly
+      ? seededNumber(`${seed}|txn-risk-anom|${index}`, 70, 98)
+      : seededNumber(`${seed}|txn-risk|${index}`, 35, 82);
+
+    return {
+      ...point,
+      count,
+      avgAmount,
+      creditAmount,
+      debitAmount,
+      riskScore,
+      riskBand: getRiskBand(riskScore)
+    };
+  });
+
+  const transactionTotals = transactionBehaviourSeries.reduce(
+    (result, row) => ({
+      count: result.count + row.count,
+      credit: result.credit + row.creditAmount,
+      debit: result.debit + row.debitAmount,
+      anomalies: result.anomalies + (row.isAnomaly ? 1 : 0)
+    }),
+    { count: 0, credit: 0, debit: 0, anomalies: 0 }
+  );
+
+  const velocityScore = Math.min(
+    99,
+    Math.round((transactionTotals.count / Math.max(1, transactionBehaviourSeries.length)) * 2.2)
+  );
+
+  const creditDebitRatio = Number((transactionTotals.credit / Math.max(1, transactionTotals.debit)).toFixed(2));
+
+  const txnTimes = caseData.evidence.transactions.map((transaction) => transaction.createdAt).sort((left, right) => left - right);
+  const avgGapMs =
+    txnTimes.length > 1
+      ? (txnTimes[txnTimes.length - 1] - txnTimes[0]) / Math.max(1, txnTimes.length - 1)
+      : 6 * 60 * 60 * 1000;
+  const avgRetentionHours = Math.max(1, Math.round(avgGapMs / (60 * 60 * 1000)));
+
+  const anomalyScore = Math.min(
+    99,
+    Math.round((transactionTotals.anomalies / Math.max(1, transactionBehaviourSeries.length)) * 100)
+  );
+
   const alertCount = seededNumber(`${seed}|alerts-total`, 14, 26);
   const workflowStatuses = ['Open', 'Under Review', 'Closed'];
 
@@ -424,6 +474,15 @@ export const buildEvidenceAnalytics = (caseData, state, district, range) => {
     alerts: {
       rows: alertRows,
       severityDistribution: alertSeverityDistribution
+    },
+    transactionsBehaviour: {
+      series: transactionBehaviourSeries,
+      kpis: {
+        velocityScore,
+        creditDebitRatio,
+        avgRetentionHours,
+        anomalyScore
+      }
     },
     workflow: {
       columns: workflowColumns,

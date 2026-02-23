@@ -181,6 +181,7 @@
 .gauge-wrap {
   position: relative;
   height: 240px;
+  margin-bottom: 16px;
 }
 
 .gauge-center {
@@ -202,6 +203,115 @@
   font-size: 12px;
   color: #4d647c;
   margin-top: 2px;
+}
+
+.risk-trend {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.trend-up {
+  background: #ffe8e7;
+  color: #c93e3a;
+}
+
+.trend-stable {
+  background: #fff4e6;
+  color: #d97e28;
+}
+
+.trend-down {
+  background: #e5f5ed;
+  color: #2d7a51;
+}
+
+.risk-gauge-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 12px;
+  background: linear-gradient(135deg, #f8fbff 0%, #f0f6fc 100%);
+  border-radius: 8px;
+  margin-bottom: 14px;
+  border: 1px solid #dce8f3;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: #5b7189;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.metric-value {
+  font-size: 16px;
+  color: #17334f;
+  font-weight: 700;
+}
+
+.risk-drivers {
+  margin-bottom: 14px;
+}
+
+.drivers-label {
+  font-size: 11px;
+  color: #5b7189;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.driver-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.driver-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid currentColor;
+  opacity: 0.9;
+}
+
+.risk-context {
+  padding: 12px;
+  background: #f9fcff;
+  border-radius: 8px;
+  border: 1px solid #e3ecf5;
+}
+
+.risk-scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #6b7c91;
+  margin-bottom: 8px;
+}
+
+.risk-update-time {
+  margin: 0;
+  font-size: 11px;
+  color: #7589a0;
+  text-align: center;
+  font-style: italic;
 }
 
 .risk-pill {

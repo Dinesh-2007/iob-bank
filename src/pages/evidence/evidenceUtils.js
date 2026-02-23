@@ -5,7 +5,7 @@ export const SECTION_LINKS = [
   { id: 'risk', label: 'Risk Scoring' },
   { id: 'red-flags', label: 'Red Flags' },
   { id: 'devices', label: 'Device Analysis' },
-  { id: 'alerts', label: 'Alert Priority' },
+  { id: 'alerts', label: 'Txn Behaviour' },
   { id: 'workflow', label: 'Workflow' }
 ];
 
