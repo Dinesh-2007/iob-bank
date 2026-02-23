@@ -476,6 +476,38 @@ th {
   color: #5f768d;
 }
 
+.report-download {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.report-download button {
+  padding: 6px 12px;
+  background: #3079be;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.report-download button:disabled {
+  background: #a0b3c6;
+  cursor: not-allowed;
+}
+
+.download-format {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.download-format select {
+  padding: 2px 4px;
+}
+
 .relationship-list li,
 .central-node-list li {
   border: 1px solid #dbe6f0;

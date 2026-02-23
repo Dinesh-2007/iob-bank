@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { generatePDF, generateCSV, generateExcel } from '../utils/reportUtils';
 import './Dashboard.css';
 
 const SIDEBAR_ITEMS = [
@@ -459,6 +460,23 @@ const buildSingleDistrictData = (state, district, rangeValue) => {
       slaHoursRemaining: finalSlaHours,
       closureHours: seededNumber(`${seed}|closure|${index}`, 4, 62),
       recommendedAction,
+      // additional fields for STR reporting and sample documentation
+      reportingEntity: {
+        name: 'ABC Bank',
+        branchCode: '00123'
+      },
+      customer: {
+        name: `${seededChoice(FIRST_NAMES)} ${seededChoice(LAST_NAMES)}`,
+        accountNumber: `1234567${seededNumber(`${seed}|cust-acc|${index}`, 1000, 9999)}`,
+        PAN: `${seededChoice(FIRST_NAMES).charAt(0)}${seededChoice(LAST_NAMES).charAt(0)}${seededNumber(`${seed}|pan|${index}`, 1000, 9999)}F`
+      },
+      suspiciousTransaction: {
+        date: openedAt.toISOString().split('T')[0],
+        amount: caseTransactions[0].amount,
+        mode: seededChoice(['IMPS', 'NEFT', 'RTGS'])
+      },
+      suspicionReason: notes,
+      conclusion: 'The account is suspected to be used as a mule account.',
       evidence: {
         transactions: caseTransactions,
         network: {
@@ -545,6 +563,9 @@ const AMLAnalystDashboard = () => {
     reportType: 'All',
     period: 'This Week'
   });
+
+  // download state: format for reports that support multiple
+  const [downloadFormat, setDownloadFormat] = useState('PDF');
 
   const [selectedAccountId, setSelectedAccountId] = useState('');
 
@@ -807,6 +828,94 @@ const AMLAnalystDashboard = () => {
 
     return rows.filter((row) => reportFilters.reportType === 'All' || row.type === reportFilters.reportType);
   }, [alerts.length, investigations, reportFilters.reportType, transactions.length]);
+
+  // ---------- download helpers ----------
+
+  // helper for safe file names
+  const formatFileName = (type, filters, extension) => {
+    const { state, district, period } = filters;
+    const dateStamp = new Date().toISOString().split('T')[0];
+    const base = `${type}_${state}_${district}_${period}_${dateStamp}`;
+    return base.replace(/\s+/g, '_') + extension;
+  };
+
+  const buildReportData = (type) => {
+    // depending on the type, collate the rows or details
+    if (type === 'STR Draft') {
+      // include investigations that are draft
+      return investigations
+        .filter(
+          (inv) => inv.status === 'STR Filed' || inv.recommendedAction === 'File STR'
+        )
+        // pass the full object so downstream logic can access STR-specific fields
+        .map((inv) => ({ ...inv }));
+    }
+    if (type === 'Export Case Report') {
+      return investigations.map((inv) => ({
+        caseId: inv.caseId || inv.id,
+        owner: inv.owner || 'N/A',
+        status: inv.status,
+        region: `${selectedState} / ${effectiveDistrict}`,
+        period: reportFilters.period
+      }));
+    }
+    if (type === 'Analyst Activity Report') {
+      // we will export the alert activity trend data for illustration
+      return alertActivityTrend.map((row) => ({
+        date: row.label,
+        alerts: row.alerts,
+        escalations: row.escalations,
+        strFiled: row.strFiled
+      }));
+    }
+    if (type === 'Compliance Summary') {
+      return myWorkSummary.map((item) => ({ metric: item.label, value: item.value }));
+    }
+    return [];
+  };
+
+  const handleDownload = (type) => {
+    console.log('[DEBUG] handleDownload invoked', { type, downloadFormat, reportFilters });
+    if (type === 'All') {
+      alert('Please select a specific report type to download.');
+      return;
+    }
+
+    const meta = {
+      title: type,
+      region: `${selectedState}_${effectiveDistrict}`.replace(/\s+/g, ''),
+      period: reportFilters.period
+    };
+    const data = buildReportData(type);
+    console.log('[DEBUG] built data', data);
+
+    // choose extension based on type/format
+    let extension = '.pdf';
+    if (type === 'Analyst Activity Report') {
+      extension = downloadFormat === 'CSV' ? '.csv' : '.xlsx';
+    }
+    const fileName = formatFileName(type, {
+      state: selectedState,
+      district: effectiveDistrict,
+      period: reportFilters.period
+    }, extension);
+
+    try {
+      if (type === 'STR Draft' || type === 'Export Case Report' || type === 'Compliance Summary') {
+        // only PDF
+        generatePDF(type, meta, data, fileName);
+      } else if (type === 'Analyst Activity Report') {
+        if (downloadFormat === 'CSV') {
+          generateCSV(data, fileName);
+        } else {
+          generateExcel(data, fileName);
+        }
+      }
+    } catch (err) {
+      console.error('download failed', err);
+      alert('An error occurred during download. See console for details.');
+    }
+  };
 
   const renderDashboardSection = () => (
     <section className="analyst-section">
@@ -1558,6 +1667,35 @@ const AMLAnalystDashboard = () => {
               ))}
             </select>
           </label>
+
+          {/* download controls for reports */}
+          <div className="report-download">
+            <button
+              disabled={reportFilters.reportType === 'All'}
+              onClick={() => handleDownload(reportFilters.reportType)}
+            >
+              📥 Download
+            </button>
+
+            {reportFilters.reportType === 'All' && (
+              <small style={{ marginLeft: '8px', color: '#d9534f' }}>
+                Please select a specific report type to download.
+              </small>
+            )}
+
+            {reportFilters.reportType === 'Analyst Activity Report' && (
+              <label className="download-format">
+                Download As:
+                <select
+                  value={downloadFormat}
+                  onChange={(e) => setDownloadFormat(e.target.value)}
+                >
+                  <option value="CSV">CSV</option>
+                  <option value="Excel">Excel</option>
+                </select>
+              </label>
+            )}
+          </div>
         </div>
 
         <div className="report-grid">
