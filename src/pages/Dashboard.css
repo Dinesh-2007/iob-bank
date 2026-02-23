@@ -68,7 +68,8 @@
   gap: 8px;
 }
 
-.analyst-sidebar button {
+.analyst-sidebar button,
+.analyst-sidebar a {
   border: 1px solid transparent;
   background: #203a53;
   color: #dfe9f3;
@@ -77,9 +78,12 @@
   text-align: left;
   cursor: pointer;
   font-size: 13px;
+  text-decoration: none;
+  display: block;
 }
 
-.analyst-sidebar button.active {
+.analyst-sidebar button.active,
+.analyst-sidebar a.active {
   background: #2b577b;
   border-color: #79a4c8;
 }
